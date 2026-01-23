@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/fonts.css'],
   nitro: {
-    preset: 'netlify',
+    preset: 'cloudflare-pages',
     prerender: {
       crawlLinks: true,
       routes: ['/']
