@@ -8,6 +8,10 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/fonts.css'],
   nitro: {
-    preset: 'netlify'
+    preset: 'netlify',
+    prerender: {
+      crawlLinks: true,
+      routes: ['/']
+    }
   }
 })
