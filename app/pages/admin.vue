@@ -1,6 +1,22 @@
 <template>
   <div style="padding: 20px; font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-    <h1 style="font-size: clamp(24px, 5vw, 32px);">Admin - Add Product</h1>
+    <!-- Header with User Info and Logout -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #4CAF50;">
+      <div>
+        <h1 style="font-size: clamp(24px, 5vw, 32px); margin: 0;">🔐 Admin Panel</h1>
+        <p style="margin: 5px 0 0 0; color: #666; font-size: 14px;">
+          Welcome, <strong>{{ adminUsername }}</strong> ({{ adminRole }})
+        </p>
+      </div>
+      <button 
+        @click="handleLogout"
+        style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; font-size: 14px;"
+      >
+        🚪 Logout
+      </button>
+    </div>
+    
+    <h2 style="font-size: 22px; margin-top: 20px;">➕ Add Product</h2>
     
     <!-- Success Message -->
     <div v-if="successMessage" style="padding: 15px; margin-bottom: 20px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px;">
@@ -14,6 +30,23 @@
     
     <!-- Product Form -->
     <form @submit.prevent="uploadProduct" style="margin-top: 30px;">
+      
+      <!-- Type -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+          Product Type:
+        </label>
+        <select 
+          v-model="formData.type" 
+          required
+          style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; box-sizing: border-box; background: white; cursor: pointer;"
+        >
+          <option value="" disabled>Select product type</option>
+          <option v-for="productType in productTypes" :key="productType.id" :value="productType.type">
+            {{ productType.type }}
+          </option>
+        </select>
+      </div>
       
       <!-- Description -->
       <div style="margin-bottom: 20px;">
@@ -32,7 +65,7 @@
       <!-- Price -->
       <div style="margin-bottom: 20px;">
         <label style="display: block; margin-bottom: 5px; font-weight: bold;">
-          Price (MMK):
+          Price (LAK):
         </label>
         <input 
           v-model.number="formData.price" 
@@ -98,9 +131,57 @@
 </template>
 
 <script setup>
+// Protect this page with auth middleware
+definePageMeta({
+  middleware: 'auth'
+})
+
 const supabase = useSupabaseClient()
+const router = useRouter()
+
+// Get admin user info
+const adminUsername = ref('')
+const adminRole = ref('')
+
+// Product types from database
+const productTypes = ref([])
+
+onMounted(() => {
+  const adminUser = localStorage.getItem('adminUser')
+  if (adminUser) {
+    const user = JSON.parse(adminUser)
+    adminUsername.value = user.username
+    adminRole.value = user.role
+  }
+  
+  // Fetch product types
+  fetchProductTypes()
+})
+
+const fetchProductTypes = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('product_type')
+      .select('*')
+      .order('type', { ascending: true })
+    
+    if (error) {
+      console.error('Error fetching product types:', error)
+    } else {
+      productTypes.value = data || []
+    }
+  } catch (error) {
+    console.error('Error fetching product types:', error)
+  }
+}
+
+const handleLogout = () => {
+  localStorage.removeItem('adminUser')
+  router.push('/login')
+}
 
 const formData = ref({
+  type: '',
   description: '',
   price: null
 })
@@ -171,7 +252,8 @@ const uploadProduct = async () => {
     const { data: productData, error: insertError } = await supabase
       .from('products')
       .insert([
-        {
+        {type: formData.value.type,
+          
           description: formData.value.description,
           price: formData.value.price,
           image_url: imageUrl
@@ -194,6 +276,7 @@ const uploadProduct = async () => {
     
     // Reset form
     formData.value = {
+      type: '',
       description: '',
       price: null
     }

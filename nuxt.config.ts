@@ -5,5 +5,6 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/supabase'],
   supabase: {
     redirect: false
-  }
+  },
+  css: ['~/assets/css/fonts.css']
 })

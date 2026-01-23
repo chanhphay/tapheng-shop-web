@@ -11,9 +11,9 @@
       </NuxtLink>
       
       <NuxtLink 
-        to="/admin" 
+        to="/login" 
         style="display: inline-block; padding: 15px 30px; background: #9C27B0; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px;">
-        🔐 Admin Panel
+        🔐 Admin Login
       </NuxtLink>
     </div>
   </div>
