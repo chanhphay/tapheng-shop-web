@@ -6,5 +6,8 @@ export default defineNuxtConfig({
   supabase: {
     redirect: false
   },
-  css: ['~/assets/css/fonts.css']
+  css: ['~/assets/css/fonts.css'],
+  nitro: {
+    preset: 'netlify'
+  }
 })
