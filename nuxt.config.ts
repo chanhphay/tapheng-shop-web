@@ -7,6 +7,14 @@ export default defineNuxtConfig({
     redirect: false
   },
   css: ['~/assets/css/fonts.css'],
+  app: {
+    head: {
+      title: 'ຮ້ານຕາແພງ Baby - Tapheng Shop',
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/images/logo.png' }
+      ]
+    }
+  },
   nitro: {
     preset: 'cloudflare-pages',
     prerender: {
