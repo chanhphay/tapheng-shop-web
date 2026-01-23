@@ -62,12 +62,12 @@
             </div>
             
             <!-- Product Details -->
-            <div style="margin-top: 15px; flex-grow: 1;">
-              <h3 style="margin: 0 0 10px 0; color: #333; font-size: 15px; line-height: 1.4;">{{ product.description }}</h3>
+            <div style="margin-top: 10px; flex-grow: 1;">
+              <h3 style="margin: 0 0 10px 0; color: #333; font-size: 12px; line-height: 1.4;">{{ product.description }}</h3>
               
               <div style="margin-top: auto;">
-                <span style="font-size: clamp(20px, 4vw, 18px); color: #4CAF50; font-weight: bold; display: block;">
-                 ລາຄາ {{ formatPrice(product.price) }} LAK
+                <span style="font-size: clamp(15px, 4vw, 12px); color: #4CAF50; font-weight: bold; display: block;">
+                 ລາຄາ : {{ formatPrice(product.price) }} LAK
                 </span>
               </div>
             </div>
