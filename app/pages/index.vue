@@ -20,6 +20,8 @@
 </template>
 
 <script setup>
-// Auto redirect to products page
-navigateTo('/products')
+// Auto redirect to products page on client side
+onMounted(() => {
+  navigateTo('/products')
+})
 </script>
