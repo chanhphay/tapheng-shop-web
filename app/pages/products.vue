@@ -7,6 +7,10 @@
       <p style="font-size: clamp(16px, 3vw, 18px); color: #4CAF50; font-weight: bold; margin: 10px 0;">
         ແບບລາຍການສິນຄ້າ ຮ້ານຕາແພງ Baby
       </p>
+      <!-- Visitor Counter -->
+      <div style="margin-top: 10px; font-size: 14px; color: #666;">
+        👁️ ຜູ້ເຂົ້າເບິ່ງ: <strong style="color: #4CAF50;">{{ visitorCount.toLocaleString() }}</strong>
+      </div>
     </div>
     <div v-if="loading" style="color: blue; margin-top: 20px;">
       Loading products...
@@ -52,7 +56,7 @@
             @mouseout="$event.currentTarget.style.transform='translateY(0)'; $event.currentTarget.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'"
           >
             <!-- Product Image -->
-            <div style="width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: #f5f5f5;">
+            <div style="width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: #f5f5f5; cursor: pointer;" @click="openImageModal(product.image_url)">
               <img 
                 :src="product.image_url" 
                 :alt="product.description"
@@ -103,6 +107,32 @@
       </div>
     </div>
     
+    <!-- Image Modal -->
+    <div 
+      v-if="selectedImage"
+      @click="closeImageModal"
+      style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;"
+    >
+      <div style="position: relative; max-width: 90%; max-height: 90vh; display: flex; flex-direction: column; align-items: center;">
+        <!-- Close Button -->
+        <button
+          @click.stop="closeImageModal"
+          style="position: absolute; top: -50px; right: 0; background: white; color: #333; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.3); transition: transform 0.2s, background 0.2s;"
+          @mouseover="$event.target.style.background='#f44336'; $event.target.style.color='white'; $event.target.style.transform='scale(1.1)'"
+          @mouseout="$event.target.style.background='white'; $event.target.style.color='#333'; $event.target.style.transform='scale(1)'"
+        >
+          ×
+        </button>
+        
+        <!-- Large Image -->
+        <img 
+          :src="selectedImage"
+          @click.stop
+          style="max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);"
+        />
+      </div>
+    </div>
+    
     <!-- Footer -->
     <div style="margin-top: 50px; padding: 30px 20px; text-align: center; border-top: 2px solid #eee; background: #f9f9f9; border-radius: 10px;">
       <!-- Social Media Links -->
@@ -130,6 +160,7 @@
             target="_blank"
             rel="noopener noreferrer"
             style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #25d366; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 16px; transition: transform 0.2s, box-shadow 0.2s;"
+const selectedImage = ref(null)
             @mouseover="$event.target.style.transform='translateY(-3px)'; $event.target.style.boxShadow='0 5px 15px rgba(37,211,102,0.4)'"
             @mouseout="$event.target.style.transform='translateY(0)'; $event.target.style.boxShadow='none'"
           >
@@ -156,6 +187,8 @@ const loading = ref(true)
 const error = ref('')
 const errorDetails = ref(null)
 const showMoreMap = ref({})
+const selectedImage = ref(null)
+const visitorCount = ref(0)
 
 // Computed property to group products by type
 const groupedProducts = computed(() => {
@@ -188,8 +221,48 @@ const getVisibleProducts = (type, items) => {
   }
   return items.slice(0, 8)
 }
+const openImageModal = (imageUrl) => {
+  selectedImage.value = imageUrl
+}
+
+const closeImageModal = () => {
+  selectedImage.value = null
+}
+
+const trackVisitor = async () => {
+  try {
+    // Check if user has visited in this session
+    const hasVisited = sessionStorage.getItem('hasVisited')
+    
+    if (!hasVisited) {
+      // Increment visitor count in database
+      const { data, error } = await supabase.rpc('increment_visitor_count')
+      
+      if (error) {
+        console.error('Error tracking visitor:', error)
+      } else {
+        sessionStorage.setItem('hasVisited', 'true')
+      }
+    }
+    
+    // Get current visitor count
+    const { data: countData, error: countError } = await supabase
+      .from('site_stats')
+      .select('visitor_count')
+      .single()
+    
+    if (!countError && countData) {
+      visitorCount.value = countData.visitor_count
+    }
+  } catch (e) {
+    console.error('Error in trackVisitor:', e)
+  }
+}
 
 onMounted(async () => {
+  // Track visitor
+  trackVisitor()
+  
   try {
     console.log('Fetching products from Supabase...')
     
