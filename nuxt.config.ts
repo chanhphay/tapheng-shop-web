@@ -5,9 +5,9 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/supabase'],
   supabase: {
     redirect: false,
-    // เพิ่มส่วนนี้เพื่อให้โมดูลใช้ค่าจากตัวแปรที่เราตั้งใน Cloudflare โดยตรง
     url: process.env.NUXT_PUBLIC_SUPABASE_URL,
-    key: process.env.NUXT_PUBLIC_SUPABASE_KEY
+    key: process.env.NUXT_PUBLIC_SUPABASE_KEY,
+    types: false  // Disable database types to remove warning
   },
   css: ['~/assets/css/fonts.css'],
   app: {
