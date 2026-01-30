@@ -1,11 +1,11 @@
-/* Phetsarath-OT Font */
-@font-face {
+/* Phetsarath-OT Font - removed to avoid loading issues */
+/* @font-face {
   font-family: 'Phetsarath-OT';
   src: url('/fonts/Phetsarath-OT.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 /* @font-face {
   font-family: 'Phetsarath-OT';
