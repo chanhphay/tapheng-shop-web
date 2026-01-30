@@ -3,7 +3,7 @@
     <!-- Logo and Header -->
     <div style="text-align: center; margin-bottom: 30px;">
       <img src="/images/logo.png" alt="ຮ້ານຕາແພງ Baby Logo" style="width: 150px; height: 150px; margin-bottom: 15px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-      <h1 style="font-size: clamp(24px, 5vw, 32px); margin: 10px 0; font-family: 'Phetsarath OT', Arial, sans-serif; color: #4CAF50;">📦 ຮ້ານຕາແພງ Baby</h1>
+      <h1 style="font-size: clamp(24px, 5vw, 32px); margin: 10px 0; font-family: 'Phetsarath-OT', Arial, sans-serif; color: #4CAF50;">📦 ຮ້ານຕາແພງ Baby</h1>
       <p style="font-size: clamp(16px, 3vw, 18px); color: #4CAF50; font-weight: bold; margin: 10px 0;">
         ແບບລາຍການສິນຄ້າ ຮ້ານຕາແພງ Baby
       </p>

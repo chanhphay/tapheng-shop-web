@@ -1,12 +1,12 @@
 # Font Setup Instructions
 
-## Phetsarath OT Font Installation
+## Phetsarath-OT Font Installation
 
-To complete the Phetsarath OT font setup, you need to add the font files to your project:
+To complete the Phetsarath-OT font setup, you need to add the font files to your project:
 
 ### Steps:
 
-1. **Download Phetsarath OT font files:**
+1. **Download Phetsarath-OT font files:**
    - You can download the font from Lao font repositories or font websites
    - You'll need: `Phetsarath-OT.ttf` and `Phetsarath-OT-Bold.ttf` (if available)
 
@@ -27,9 +27,9 @@ To complete the Phetsarath OT font setup, you need to add the font files to your
 
 ### Current Configuration:
 
-- **Primary Font:** Phetsarath OT
+- **Primary Font:** Phetsarath-OT
 - **Fallback Fonts:** Noto Sans Lao (Google Fonts), Arial, sans-serif
 - **Applied To:** All pages and components
 
 ### Note:
-If you don't have the Phetsarath OT font files, the app will automatically use the fallback font "Noto Sans Lao" which is a similar Lao font loaded from Google Fonts.
+If you don't have the Phetsarath-OT font files, the app will automatically use the fallback font "Noto Sans Lao" which is a similar Lao font loaded from Google Fonts.
