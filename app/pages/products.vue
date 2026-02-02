@@ -160,7 +160,6 @@
             target="_blank"
             rel="noopener noreferrer"
             style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #25d366; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 16px; transition: transform 0.2s, box-shadow 0.2s;"
-const selectedImage = ref(null)
             @mouseover="$event.target.style.transform='translateY(-3px)'; $event.target.style.boxShadow='0 5px 15px rgba(37,211,102,0.4)'"
             @mouseout="$event.target.style.transform='translateY(0)'; $event.target.style.boxShadow='none'"
           >
