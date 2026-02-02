@@ -220,8 +220,14 @@ const closeImageModal = () => {
 
 const trackVisitor = async () => {
   try {
-    // Check if user has visited in this session
-    const hasVisited = sessionStorage.getItem('hasVisited')
+    // Check if user has visited in this session (with iOS Safari private mode safety)
+    let hasVisited = false
+    try {
+      hasVisited = sessionStorage.getItem('hasVisited') === 'true'
+    } catch (e) {
+      // iOS Safari in private mode throws error
+      console.log('sessionStorage not available')
+    }
     
     if (!hasVisited) {
       // Increment visitor count in database
@@ -230,7 +236,11 @@ const trackVisitor = async () => {
       if (error) {
         console.error('Error tracking visitor:', error)
       } else {
-        sessionStorage.setItem('hasVisited', 'true')
+        try {
+          sessionStorage.setItem('hasVisited', 'true')
+        } catch (e) {
+          // Silently fail on private mode
+        }
       }
     }
     
