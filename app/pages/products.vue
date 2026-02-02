@@ -81,7 +81,8 @@
             @click="toggleShowMore(type)"
             class="see-more-btn"
           >
-            {{ showMoreMap[type] ? '▲ Show Less' : `▼ See More (${items.length - 8} more)` }}
+            <span v-if="showMoreMap[type]">▲ Show Less</span>
+            <span v-else>▼ See More ({{ items.length - 8 }} more)</span>
           </button>
         </div>
       </div>
